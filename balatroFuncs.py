@@ -49,8 +49,8 @@ combinations = {
 }
 
 def generateDeck(arr):
+    suits = ["Hearts", "Diamonds", "Clubs", "Spades"]
     for i in range(2, 15):
-        suits = ["Hearts", "Diamonds", "Clubs", "Spades"]
         for suit in suits:
             arr.append({
                 "rank": i,
@@ -75,3 +75,21 @@ def switchRank(rank):
         case 13: rank = "King"
         case 14: rank = "Ace"
     return rank
+
+def generateShopCards():
+    suits = ["Hearts", "Diamonds", "Clubs", "Spades"]
+    shopCards = []
+    for x in range(0,4):
+        bonusMult = 4 if randint(0, 100) < 30 else 0
+        bonusChips = 30 if randint(0, 100) < 40 else 0
+        shopCards.append({
+            "rank": randint(2, 15),
+            "suit": suits[randint(0,3)],
+            "bonusChips": bonusChips,
+            "bonusMult": bonusMult
+        })
+    return shopCards
+
+
+def generateShopPacks():
+    packs = []

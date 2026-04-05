@@ -13,6 +13,7 @@ while True:
     maxChips = 0
     hands = 4
     discards = 3
+    balance = 4
 
     print(f"---------------------------------\n"
           f"You're on Ante: {ante}/8 and Round: {rounds}\n"
@@ -53,7 +54,7 @@ while True:
                     sleep(2)
                 else:
                     scoreChips = 0
-                    scoreMult = 1
+                    scoreMult = 100
                     print(f'You {command}ed:')
                     for index in playedCards:
                         i = int(index) - 1
@@ -89,7 +90,23 @@ while True:
               f"Antes Lived: {ante}\n")
         break
     else:
+        hasPassed = False
         rounds += 1
+        print('-------- You passed the blind! --------')
+        total = '$' * (((rounds - 1) % 3) + hands + discards)
+        sleep(1)
+        print(f'-- Blind Bonus: {'$' * ((rounds - 1) % 3)}')
+        sleep(0.5)
+        if hands > 0:
+            print(f'-- Hand Bonus: {'$' * hands}')
+            sleep(0.5)
+        if discards > 0:
+            print(f'-- Discard Bonus: {'$' * discards}')
+            sleep(0.5)
+        print(f'Total: {total}')
+        balance += total.count('$')
+        sleep(2)
+
         if rounds == 24:
             print("--------------------------------\n"
                   "--------------------------------\n"
@@ -112,9 +129,21 @@ while True:
                     isContinued = False if question == 'n' else True
                     break
             if not isContinued: break
-        hasPassed = False
+
+            # shop code here
+        while True:
+            print('------------------\n'
+                  '-------SHOP-------\n'
+                  '------------------')
+            print(f'Your balance: {balance}$')
+            shopCards = game.generateShopCards()
+            i = 0
+            for card in shopCards:
+                i += 1
+                print(f'-- {i}. {game.switchRank(card['rank'])} of {card['suit']} - {1 if card['bonusMult'] == 0 and card['bonusChips'] == 0 else 4 if card['bonusMult'] > 0 and card['bonusChips'] > 0 else 2}$ {f'(bonusChips: {card['bonusChips']})' if card['bonusChips'] > 0 else ''} {f'(bonusMult: {card['bonusMult']})' if card['bonusMult'] > 0 else ''}')
+            print('------------------')
+            command = input()
 
 
         # somehow need to make it cycle through combinations and check which one is played
-        # shop system
         # enhancements
